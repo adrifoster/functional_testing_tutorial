@@ -12,6 +12,7 @@ Follow these steps to set up your environment and install the library.
 Open a terminal and run:
 
 ```
-git clone <repository_url>
+git clone https://github.com/adrifoster/functional_testing_tutorial
 cd functional_testing_tutorial
 ```
+
