@@ -1,0 +1,16 @@
+name: functional-testing-tutorial
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - -e .
+      - jupyterlab
+      - notebook
+      - jupyter
+      - seaborn
+      - matplotlib
+      - pandas
+      - numpy
+      - pyyaml

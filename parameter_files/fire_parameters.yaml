@@ -1,0 +1,69 @@
+bulk_density:
+  value: [15.4, 16.8, 19.6, 999, 4, 4]
+  units: "kg/m3"
+  description: "fuel bulk density"
+  
+sav:
+  value: [13, 3.58, 0.98, 0.2, 66, 66]
+  units: "/cm"
+  description: "fuel surface area to volume ratio"
+
+miner_total:
+  value: 0.055
+  description: "fractional mineral content in fuel"
+  units: "unitless"
+
+min_moisture:
+  value: [0.18, 0.12, 0.0, 0.0, 0.24, 0.24]
+  description: "litter moisture threshold to be considered very dry"
+  units: "fraction"
+
+mid_moisture:
+  value: [0.72, 0.51, 0.38, 1.0, 0.8, 0.8]
+  description: "litter moisture threshold to be considered medium dry"
+  units: "fraction"
+
+mid_moisture_coeff:
+  value: [2.35, 1.47, 1.06, 0.8, 3.2, 3.2]
+  description: "intercept of mid moisture burn fraction curve"
+  units: "unitless"
+
+mid_moisture_slope:
+  value: [2.35, 1.47, 1.06, 0.8, 3.2, 3.2]
+  description: "slope of mid moisture burn fraction curve"
+  units: "unitless"
+
+low_moisture_coeff:
+  value: [1.12, 1.09, 0.98, 0.8, 1.15, 1.15]
+  description: "Intercept of low moisture burn fraction curve"
+  units: "unitless"
+
+low_moisture_slope:
+  value: [0.62, 0.72, 0.85, 0.8, 0.62, 0.62]
+  description: "Slope of low moisture burn fraction curve"
+  units: "unitless"
+  
+cwd_frac:
+  value: [0.045, 0.075, 0.21, 0.67]
+  description: "fraction of woody biomass destined for coarse woody debris pool"
+  units: "unitless"
+  
+mineral_dampening:
+  value: 0.41739
+  description: "mineral-dampening coefficient"
+  units: "unitless"
+  
+fuel_energy:
+  value: 18000.0
+  description: "heat content of fuel"
+  units: "kJ/kg"
+  
+max_duration:
+  value: 240.0
+  description: "maximum fire duration"
+  units: "min"
+  
+duration_slope:
+  value: -11.06
+  description: "slope of fire duration curve "
+  units: "unitless/kg"

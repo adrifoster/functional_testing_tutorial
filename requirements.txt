@@ -1,0 +1,9 @@
+-e .
+jupyterlab
+notebook
+jupyter
+seaborn
+matplotlib
+pandas
+numpy
+pyyaml
