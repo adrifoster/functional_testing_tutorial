@@ -1,11 +1,9 @@
 from setuptools import setup, find_packages
 
-from setuptools import setup, find_packages
-
 setup(
-    name="functional_testing_tutorial",
+    name="fire_model",
     version="0.1.0",
-    description="Tutorial package for functional testing in scientific code",
+    description="package for running a minimal fire model",
     author="Adrianna Foster",
     packages=find_packages(where="src"),
     package_dir={"": "src"},

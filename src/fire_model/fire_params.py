@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 import yaml
 import numpy as np
-from fuel_types import NUM_FUEL_CLASSES, NUM_CWD_CLASSES
+from fire_model.fuel_types import NUM_FUEL_CLASSES, NUM_CWD_CLASSES
 
 
 @dataclass

@@ -1,10 +1,10 @@
 """Fuel class"""
 
 import numpy as np
-from fire_weather_class import FireWeather
-from nesterov_fire_weather import NesterovFireWeather
-from fuel_types import NUM_FUEL_CLASSES, FuelType
-from fire_params import FireParams
+from fire_model.fire_weather_class import FireWeather
+from fire_model.nesterov_fire_weather import NesterovFireWeather
+from fire_model.fuel_types import NUM_FUEL_CLASSES, FuelType
+from fire_model.fire_params import FireParams
 
 
 class Fuel:

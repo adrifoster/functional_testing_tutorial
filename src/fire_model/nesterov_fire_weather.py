@@ -1,5 +1,5 @@
 import numpy as np
-from fire_weather_class import FireWeather
+from fire_model.fire_weather_class import FireWeather
 
 
 class NesterovFireWeather(FireWeather):

@@ -1,7 +1,7 @@
 """Helper functions for testing code"""
 import pandas as pd
-from fuel_class import Fuel
-from synthetic_fuel_models import FuelModelsArray
+from fire_model.fuel_class import Fuel
+from fire_model.synthetic_fuel_models import FuelModelsArray
 
 def read_weather_data(file_path: str):
     weather_data = pd.read_csv(file_path, index_col=[0])

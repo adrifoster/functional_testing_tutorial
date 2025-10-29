@@ -1,11 +1,11 @@
 import os
 import numpy as np
 import pandas as pd
-from fuel_class import Fuel
-from nesterov_fire_weather import NesterovFireWeather
-from fire_params import FireParams
-from testing.synthetic_fuel_models import FuelModelsArray
-from testing.testing_shr import *
+from fire_model.fuel_class import Fuel
+from fire_model.nesterov_fire_weather import NesterovFireWeather
+from fire_model.fire_params import FireParams
+from fire_model.testing.synthetic_fuel_models import FuelModelsArray
+from fire_model.testing.testing_shr import *
     
 def main():
     
