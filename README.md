@@ -16,3 +16,69 @@ git clone https://github.com/adrifoster/functional_testing_tutorial
 cd functional_testing_tutorial
 ```
 
+Your repository should have this structure:
+
+```
+functional_testing_tutorial/
+├─ src/
+│  ├─ __init__.py
+│  ├─ fire_equations.py
+│  ├─ fire_params.py
+│  ├─ fire_weather_class.py
+│  ├─ fuel_class.py
+│  ├─ nesterov_fire_weather.py
+│  ├─ fuel_types.py
+│  └─ testing/
+│     ├─ __init__.py
+│     ├─ synthetic_fuel_models.py
+│     └─ testing_shr.py
+├─ notebooks/
+├─ data/
+├─ parameter_files/
+├─ setup.py
+├─ environment.yml
+└─ requirements.txt
+```
+
+## 2. Create Python environment
+
+### Option A: Conda (recommended)
+
+In a terminal window type:
+
+```
+conda env create -f environment.yml
+conda activate functional-testing-tutorial
+```
+
+### Option B: Pip (if not using Conda)
+
+In a terminal window type:
+
+```
+python -m venv .venv
+source .venv/bin/activate       # macOS/Linux
+.venv\Scripts\activate          # Window
+
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+## 3. Install tutorial library
+
+Once your environment is active, install the Python package in **editable mode**:
+
+```
+pip install -e .
+```
+
+This makes `functional_testing_tutorial` importable anywhere in the environment and 
+allows changes to `src/` to take effect immediately.
+
+### Test the installation
+
+```
+python -c "from functional_testing_tutorial.fire_equations import FireEquations; print('Library installed!')"
+```
+
+If you see `Library installed!`, you're good to go!
