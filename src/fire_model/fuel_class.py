@@ -1,6 +1,7 @@
 """Fuel class"""
 
 import numpy as np
+from typing import Dict, Any, Optional, Callable
 from fire_model.fire_weather_class import FireWeather
 from fire_model.nesterov_fire_weather import NesterovFireWeather
 from fire_model.fuel_types import NUM_FUEL_CLASSES, FuelType
@@ -8,12 +9,14 @@ from fire_model.fire_params import FireParams
 
 
 class Fuel:
-    """
-    Holds arrays for loading, effective moisture, fractional loading and burnt fractions,
-    as well as computed aggregate properties for non-trunk fuel classes.
-    """
+    """Represents fuel characteristics of a patch of land"""
 
     def __init__(self, params: FireParams) -> None:
+        """Initialize a new Fuel instance.
+
+        Args:
+            params (FireParams): parameters
+        """
         self.params = params
         self.loading = np.zeros(NUM_FUEL_CLASSES, dtype=float)
         self.effective_moisture = np.zeros(NUM_FUEL_CLASSES, dtype=float)
@@ -24,6 +27,19 @@ class Fuel:
         self.bulk_density_notrunks = 0.0
         self.sav_notrunks = 0.0
         self.mef_notrunks = 0.0
+        
+    def describe(self) -> None:
+        """Print a human-readable description of the Fuel instance."""
+        print("Fuel instance state:")
+        print(f"  Loading (kgC/m2): {np.round(self.loading, 4)}")
+        print(f"  Effective moisture (m3/m3): {np.round(self.effective_moisture, 4)}")
+        print(f"  Fractional loading: {np.round(self.frac_loading, 4)}")
+        print(f"  Fraction burnt: {np.round(self.frac_burnt, 4)}")
+        print(f"  Non-trunk loading (kgC/m2): {self.non_trunk_loading:.4f}")
+        print(f"  Avg moisture (non-trunks, m3/m3): {self.average_moisture_notrunks:.4f}")
+        print(f"  Bulk density (non-trunks, kg/m3): {self.bulk_density_notrunks:.4f}")
+        print(f"  SAV (non-trunks, /cm): {self.sav_notrunks:.4f}")
+        print(f"  MEF (non-trunks, m3/m3): {self.mef_notrunks:.4f}")
 
     def update_loading(
         self,
