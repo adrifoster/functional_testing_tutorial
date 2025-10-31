@@ -114,7 +114,7 @@ class FireEquations:
     def heat_of_preignition(fuel_moisture: float) -> float:
         """Calculates heat of pre-ignition in kJ/kg
 
-        Heat of pre-ignition is the heat required to bring a unit weight of fuel to 
+        Heat of pre-ignition is the heat required to bring a unit weight of fuel to
         ignition
 
         Equation A4 in Thonicke et al. 2010
@@ -170,12 +170,12 @@ class FireEquations:
         # Equation A8 in Thonicke et al. 2010 per eqn 48 from Rothermel 1972
         c = 7.47 * (math.exp(-0.8711 * (sav**0.55)))
 
-        # Equation A9 in Thonicke et al. 2010 (appears to have typo, using coefficient 
+        # Equation A9 in Thonicke et al. 2010 (appears to have typo, using coefficient
         # Eq. 50 Rothermel 1972)
         e = 0.715 * (math.exp(-0.01094 * sav))
 
         # Equation A5 in Thonicke et al. 2010
-        # convert wind_speed (wind at elev relevant to fire) from m/min to ft/min for 
+        # convert wind_speed (wind at elev relevant to fire) from m/min to ft/min for
         # Rothermel ROS Eq.
         return c * ((3.281 * wind_speed) ** b) * (beta_ratio ** (-e))
 
@@ -346,3 +346,142 @@ class FireEquations:
             float: surface fireline intensity [kW/m]
         """
         return fuel_energy * fuel_consumed * ros
+
+    @staticmethod
+    def scorch_height(alpha_sh: float, fire_intensity: float) -> float:
+        """Calculates scorch height [m]
+
+        Equation 16 in Thonicke et al. 2010
+        Van Wagner 1973 Eq. 8; Byram (1959)
+
+        Args:
+            alpha_sh (float): alpha parameter for scorch height equation
+            fire_intensity (float): fire intensity [kW/m]
+
+        Returns:
+            float: scorch height [m]
+        """
+        if fire_intensity <= 0.0:
+            return 0.0
+
+        return alpha_sh * (fire_intensity**0.667)
+
+    @staticmethod
+    def crown_fraction_burnt(
+        scorch_height: float, tree_height: float, crown_depth: float
+    ) -> float:
+        """Calculates fraction of the crown burnt for woody plants
+
+        Equation 17 in Thonicke et al. 2010
+
+        Args:
+            scorch_height (float): scorch height [m]
+            tree_height (float): tree height [m]
+            crown_depth (float): crown depth [m]
+
+        Returns:
+            float: fraction of crown burnt [0-1]
+        """
+        if crown_depth <= 0.0:
+            return 0.0
+
+        fraction_burnt = (scorch_height - tree_height + crown_depth) / crown_depth
+        return min(1.0, max(0.0, fraction_burnt))
+
+    @staticmethod
+    def bark_thickness(bark_scalar: float, dbh: float) -> float:
+        """Calculates bark thickness [cm]
+
+        Equation 21 in Thonicke et al 2010
+
+        Args:
+            bark_scalar (float): bark per dbh [cm/cm]
+            dbh (float): diameter at breast height [cm]
+
+        Returns:
+            float: bark thickness [cm]
+        """
+        return bark_scalar * dbh
+
+    @staticmethod
+    def critical_residence_time(bark_thickness: float) -> float:
+        """Calculates critical fire residence time for cambial damage [min]
+
+        Equation 19 in Thonicke et al. 2010
+
+        Args:
+            bark_thickness (float): bark thickness [cm]
+
+        Returns:
+            float: critical fire residence time for cambial damage [min]
+        """
+        return 2.9 * bark_thickness**2.0
+
+    @staticmethod
+    def cambial_mortality(bark_scalar: float, dbh: float, tau_l: float) -> float:
+        """Calculates rate of cambial damage mortality [0-1]
+        Equation 19 in Thonicke et al. 2010
+
+        Args:
+            bark_scalar (float): cm bark per cm dbh [cm/cm]
+            dbh (float): diameter at breast height [cm]
+            tau_l (float): residence time of fire [min]
+
+        Returns:
+            float: rate of cambial damage mortality [0-1]
+        """
+
+        # calculate bark thickness based of bark scalar parameter and DBH
+        bark_thickness = FireEquations.bark_thickness(bark_scalar, dbh)
+
+        # calculate critical residence time for cambial damage [min]
+        tau_c = FireEquations.critical_residence_time(bark_thickness)
+
+        # relative residence time
+        tau_r = tau_l / tau_c
+
+        if tau_r >= 2.0:
+            return 1.0
+        if 0.22 < tau_r < 2.0:
+            return 0.563 * tau_r - 0.125
+        return 0.0
+
+    @staticmethod
+    def crown_fire_mortality(crown_kill: float, fraction_crown_burned: float) -> float:
+        """Calculates rate of mortality from crown scorching [0-1]
+        Equation 19 in Thonicke et al. 2010
+
+        Args:
+            crown_kill (float): parameter for crown kill cm bark per cm dbh [cm/cm]
+            fraction_crown_burned (float): fraction of the crown burned [0-1]
+
+        Returns:
+            float: rate of mortality from crown scorching [0-1]
+        """
+
+        mortality = crown_kill * fraction_crown_burned**3.0
+        return min(1.0, max(0.0, mortality))
+
+    @staticmethod
+    def total_fire_mortality(
+        crown_fire_mort: float, cambial_damage_mort: float
+    ) -> float:
+        """Calculates rate of mortality from wildfire [0-1]
+        Equation 18 in Thonicke et al. 2010
+
+        Args:
+            crown_fire_mort (float): mortality rate from crown scorching [0-1]
+            cambial_damage_mort (float): mortality rate from cambial damage [0-1]
+
+        Returns:
+            float: rate of mortality from wildfire [0-1]
+        """
+
+        if crown_fire_mort >= 1.0 or cambial_damage_mort >= 1.0:
+            return 1.0
+        mortality = (
+            crown_fire_mort
+            + cambial_damage_mort
+            - (crown_fire_mort * cambial_damage_mort)
+        )
+        return min(1.0, max(0.0, mortality))

@@ -172,9 +172,9 @@ class Fuel:
         """
 
         # constants
-        MEF_a = 0.524
-        MEF_b = 0.066
-        return MEF_a - MEF_b * np.log(sav)
+        MEF_A = 0.524
+        MEF_B = 0.066
+        return MEF_A - MEF_B * np.log(sav)
 
     def average_bulk_density_no_trunks(self) -> None:
         """Calculate average bulk density excluding trunks. If non_trunk_loading ~ 0,
