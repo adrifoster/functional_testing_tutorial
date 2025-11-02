@@ -16,7 +16,6 @@ class SyntheticFuelModel:
 
     fuel_model_index: int
     carrier: str
-    fuel_model_code: Optional[str] = None
     fuel_model_name: str = ""
     wind_adj_factor: float = 0.0
     hr1_loading: float = 0.0
@@ -33,8 +32,6 @@ class SyntheticFuelModel:
         self.live_herb_loading *= USTONS_ACRE_TO_KGC_M2
         self.live_woody_loading *= USTONS_ACRE_TO_KGC_M2
         self.fuel_depth *= FT_TO_M
-        if self.fuel_model_code is None:
-            self.fuel_model_code = f"{self.carrier}{self.fuel_model_index}"
 
 
 HARD_CODED_FUEL_MODELS = [
