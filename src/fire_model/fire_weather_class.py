@@ -1,6 +1,7 @@
 """Base FireWeather class."""
 
 from abc import ABC, abstractmethod
+import math
 
 
 class FireWeather(ABC):
@@ -23,6 +24,7 @@ class FireWeather(ABC):
         """class init method"""
         self.fire_weather_index: float = 0.0
         self.effective_windspeed: float = 0.0
+        self.fire_danger_index: float = 0.0
 
     @abstractmethod
     def update_index(self, temp_c: float, precip: float, rh: float) -> None:
@@ -47,3 +49,14 @@ class FireWeather(ABC):
             tree_fraction * self.WIND_ATTEN_TREED
             + (grass_fraction + bare_fraction) * self.WIND_ATTEN_GRASS
         )
+
+    def update_fire_danger_index(
+        self,
+        fdi_alpha: float,
+    ) -> None:
+        """Calculate effective wind speed corrected for vegetation cover.
+
+        Args:
+            fdi_alpha (float): parameter scaling weather index to fire danger index
+        """
+        self.fire_danger_index = 1.0 - math.exp(-fdi_alpha * self.fire_weather_index)

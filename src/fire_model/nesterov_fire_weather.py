@@ -1,5 +1,11 @@
+"""Holds concrete fire weather class using Nesterov Index"""
+
 import numpy as np
 from fire_model.fire_weather_class import FireWeather
+
+# constants
+DEWPOINT_A = 17.62  # dewpoint temperature constant a
+DEWPOINT_B = 243.12  # dewpoint temperature constant b
 
 
 class NesterovFireWeather(FireWeather):
@@ -20,7 +26,7 @@ class NesterovFireWeather(FireWeather):
         Args:
             temp_c (float): daily averaged temperature [degrees C]
             precip (float): daily precipitation [mm]
-            rh (float): ! daily relative humidity [%]
+            rh (float): daily relative humidity [%]
         """
         rh_clamped = np.clip(rh, 0.0, 100.0)
 
@@ -31,28 +37,25 @@ class NesterovFireWeather(FireWeather):
             self.fire_weather_index += self.calc_nesterov_index(temp_c, t_dew)
 
     @staticmethod
-    def dewpoint(tempC: float, rh: float) -> float:
+    def dewpoint(tempc: float, rh: float) -> float:
         """Calculates dewpoint from input air temperature and relative humidity
         Uses Equation 8 from Lawrence 2005, https://doi.org/10.1175/BAMS-86-2-225
 
         Args:
-            temp (float): air temperature [degrees C]
+            tempc (float): air temperature [degrees C]
             rh (float): relative humidity [%]
 
         Returns:
             float: dewpoint temperature [degrees C]
         """
-        # constants
-        DEWPOINT_A = 17.62
-        DEWPOINT_B = 243.12
 
-        yipsolon = np.log(max(1.0, rh) / 100.0) + (DEWPOINT_A * tempC) / (
-            DEWPOINT_B + tempC
+        yipsolon = np.log(max(1.0, rh) / 100.0) + (DEWPOINT_A * tempc) / (
+            DEWPOINT_B + tempc
         )
         return (DEWPOINT_B * yipsolon) / (DEWPOINT_A - yipsolon)
 
     @staticmethod
-    def calc_nesterov_index(tempC: float, tdew: float) -> float:
+    def calc_nesterov_index(tempc: float, tdew: float) -> float:
         """Calculates current day's Nesterov Index for given input values
 
         Args:
@@ -63,5 +66,5 @@ class NesterovFireWeather(FireWeather):
             float: Nesterov Index (>=0)
         """
 
-        nesterov_index = (tempC - tdew) * tempC
+        nesterov_index = (tempc - tdew) * tempc
         return max(0.0, nesterov_index)

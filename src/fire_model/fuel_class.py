@@ -1,11 +1,16 @@
 """Fuel class"""
 
 import numpy as np
-from typing import Dict, Any, Optional, Callable
 from fire_model.fire_weather_class import FireWeather
 from fire_model.nesterov_fire_weather import NesterovFireWeather
 from fire_model.fuel_types import NUM_FUEL_CLASSES, FuelType
 from fire_model.fire_params import FireParams
+
+# constants
+MEF_A = 0.524  # moisture of extinction constant a
+MEF_B = 0.066  # moisture of extinction constant b
+MAX_RESIDENCE_TIME = 8.0  # maximum fire residence time [minutes]
+MAX_GRASS_FRAC = 0.8  # maximum fraction burnt for live grasses
 
 
 class Fuel:
@@ -27,7 +32,7 @@ class Fuel:
         self.bulk_density_notrunks = 0.0
         self.sav_notrunks = 0.0
         self.mef_notrunks = 0.0
-        
+
     def describe(self) -> None:
         """Print a human-readable description of the Fuel instance."""
         print("Fuel instance state:")
@@ -36,7 +41,9 @@ class Fuel:
         print(f"  Fractional loading: {np.round(self.frac_loading, 4)}")
         print(f"  Fraction burnt: {np.round(self.frac_burnt, 4)}")
         print(f"  Non-trunk loading (kgC/m2): {self.non_trunk_loading:.4f}")
-        print(f"  Avg moisture (non-trunks, m3/m3): {self.average_moisture_notrunks:.4f}")
+        print(
+            f"  Avg moisture (non-trunks, m3/m3): {self.average_moisture_notrunks:.4f}"
+        )
         print(f"  Bulk density (non-trunks, kg/m3): {self.bulk_density_notrunks:.4f}")
         print(f"  SAV (non-trunks, /cm): {self.sav_notrunks:.4f}")
         print(f"  MEF (non-trunks, m3/m3): {self.mef_notrunks:.4f}")
@@ -50,8 +57,15 @@ class Fuel:
         trunk_litter: float,
         live_grass: float,
     ) -> None:
-        """
-        Set loading for each fuel type from inputs.
+        """Updates loading for each fuel class
+
+        Args:
+            leaf_litter (float): leaf litter [kgC/m2]
+            twig_litter (float): twig litter [kgC/m2]
+            small_branch_litter (float): small branch litter [kgC/m2]
+            large_branch_litter (float): large branch litter [kgC/m2]
+            trunk_litter (float): trunk litter [kgC/m2]
+            live_grass (float): live grasses [kgC/m2]
         """
         self.loading[FuelType.DEAD_LEAVES.value] = float(leaf_litter)
         self.loading[FuelType.TWIGS.value] = float(twig_litter)
@@ -84,8 +98,6 @@ class Fuel:
 
     def update_fuel_moisture(
         self,
-        sav_fuel: np.ndarray,
-        drying_ratio: float,
         fire_weather: FireWeather,
     ) -> None:
         """
@@ -94,10 +106,10 @@ class Fuel:
         total_loading = self.non_trunk_loading + self.loading[FuelType.TRUNKS.value]
         if total_loading > 0.0:
 
-            moisture = self.compute_moisture(sav_fuel, drying_ratio, fire_weather)
+            moisture = self.compute_moisture(fire_weather)
             # moisture_of_extinction per class and effective_moisture = moisture / MEF
             moisture_of_extinction = np.array(
-                [self.moisture_of_extinction(s) for s in sav_fuel], dtype=float
+                [self.moisture_of_extinction(s) for s in self.params.sav], dtype=float
             )
             # protect division by zero of MEF (shouldn't happen for sav>0)
             self.effective_moisture = moisture / moisture_of_extinction
@@ -116,14 +128,11 @@ class Fuel:
             self.average_moisture_notrunks = 0.0
             self.mef_notrunks = 0.0
 
-    def compute_moisture(
-        self, sav_fuel: np.ndarray, drying_ratio: float, fire_weather
-    ) -> np.ndarray:
+    def compute_moisture(self, fire_weather: FireWeather) -> np.ndarray:
         """
         Compute fuel moisture based on fire weather type.
 
         Args:
-            sav_fuel (np.ndarray): surface area to volume ratio of all fuel classes
             drying_ratio (float): drying ratio
             fire_weather: a FireWeather instance providing fire_weather_index
         Returns:
@@ -131,25 +140,26 @@ class Fuel:
         """
         if isinstance(fire_weather, NesterovFireWeather):
             return self._compute_moisture_nesterov(
-                sav_fuel, drying_ratio, fire_weather.fire_weather_index
+                self.params.sav,
+                self.params.drying_ratio,
+                fire_weather.fire_weather_index,
             )
-        else:
-            raise NotImplementedError(
-                f"Moisture computation not implemented for {type(fire_weather)}"
-            )
+        raise NotImplementedError(
+            f"Moisture computation not implemented for {type(fire_weather)}"
+        )
 
     def _compute_moisture_nesterov(
-        self, sav_fuel: np.ndarray, drying_ratio: float, NI: float
+        self, sav_fuel: np.ndarray, drying_ratio: float, nesterov_index: float
     ) -> np.ndarray:
         """Compute fuel moisture using the Nesterov Index."""
         moisture = np.zeros_like(sav_fuel)
 
-        for i in range(len(sav_fuel)):
+        for i, sav in enumerate(sav_fuel):
             if i == FuelType.LIVE_GRASS.value:
-                alpha_FMC = sav_fuel[FuelType.TWIGS.value] / drying_ratio
+                alpha_fmc = sav_fuel[FuelType.TWIGS.value] / drying_ratio
             else:
-                alpha_FMC = sav_fuel[i] / drying_ratio
-            moisture[i] = np.exp(-alpha_FMC * NI)
+                alpha_fmc = sav / drying_ratio
+            moisture[i] = np.exp(-alpha_fmc * nesterov_index)
 
         self.effective_moisture[:] = moisture
         return moisture
@@ -172,8 +182,6 @@ class Fuel:
         """
 
         # constants
-        MEF_A = 0.524
-        MEF_B = 0.066
         return MEF_A - MEF_B * np.log(sav)
 
     def average_bulk_density_no_trunks(self) -> None:
@@ -207,8 +215,6 @@ class Fuel:
 
     def calculate_fraction_burnt(self) -> None:
         """Calculates the fraction burnt for all fuel classes"""
-
-        MAX_GRASS_FRAC = 0.8  # maximum fraction burnt for live grasses
 
         frac_burnt = np.zeros(NUM_FUEL_CLASSES)
         relative_moisture = self.effective_moisture
@@ -255,7 +261,6 @@ class Fuel:
 
     def calculate_residence_time(self) -> float:
         """Compute fireline residence time (tau_l) in minutes, capped"""
-        MAX_RESIDENCE_TIME = 8.0  # minutes
 
         # boolean mask to exclude trunks
         mask = np.arange(NUM_FUEL_CLASSES) != FuelType.TRUNKS.value

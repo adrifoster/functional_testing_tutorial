@@ -2,11 +2,17 @@
 
 import math
 
+# constants
+LB_THRESHOLD = 0.55  # threshold for length-to-breadth equations
+Q_DRY = 581.0  # heat of pregnition of dry fuels
+PI = 3.14159265359
+
 
 class FireEquations:
+    """Holds equations for fire behavior"""
 
     @staticmethod
-    def optimum_packing_ratio(SAV: float) -> float:
+    def optimum_packing_ratio(sav: float) -> float:
         """Calculates optimum packing ratio [unitless]
         Equation A6 in Thonicke et al. 2010
         Rothermel 1972 Eq. 37
@@ -17,30 +23,30 @@ class FireEquations:
         Returns:
             float: optimum packing ratio [unitless]
         """
-        if SAV < 0.0:
+        if sav < 0.0:
             return 0.0
         a, b = 0.200395, -0.8189
-        return a * (SAV**b)
+        return a * (sav**b)
 
     @staticmethod
-    def maximum_reaction_velocity(SAV: float) -> float:
+    def maximum_reaction_velocity(sav: float) -> float:
         """Calculates maximum reaction velocity in /min
 
         From Equation 36 in Rothermel 1972; Fig. 12
 
         Args:
-            SAV (float): fuel surface area to volume ratio [/cm]
+            sav (float): fuel surface area to volume ratio [/cm]
 
         Returns:
             float: maximum reaction velocity [/min]
         """
-        if SAV < 0.0:
+        if sav < 0.0:
             return 0.0
-        return 1.0 / (0.0591 + 2.926 * (SAV**-1.5))
+        return 1.0 / (0.0591 + 2.926 * (sav**-1.5))
 
     @staticmethod
     def optimum_reaction_velocity(
-        max_vel: float, SAV: float, beta_ratio: float
+        max_vel: float, sav: float, beta_ratio: float
     ) -> float:
         """Calculates optimum reaction velocity in /min
         Reaction velocity (i.e. rate of fuel consumption) that would exist if the
@@ -57,35 +63,35 @@ class FireEquations:
         Returns:
             float: optimum reaction velocity [/min]
         """
-        a = 8.9033 * (SAV**-0.7913)
+        a = 8.9033 * (sav**-0.7913)
         a_beta = math.exp(a * (1.0 - beta_ratio))
         return max_vel * (beta_ratio**a) * a_beta
 
     @staticmethod
-    def moisture_coefficient(moisture: float, MEF: float) -> float:
+    def moisture_coefficient(moisture: float, mef: float) -> float:
         """Calculates the moisture dampening coefficient for reaction intensity
         Based on Equation in table A1 Thonicke et al. 2010.
 
         Args:
             moisture (float): fuel moisture [m3/m3]
-            MEF (float): fuel moisture of extinction [m3/m3]
+            mef (float): fuel moisture of extinction [m3/m3]
 
         Returns:
             float: moisture dampening coefficient [unitless]
         """
-        if MEF < 0.0:
+        if mef < 0.0:
             return 0.0
-        mw_weight = moisture / MEF
+        mw_weight = moisture / mef
         coeff = 1.0 - 2.59 * mw_weight + 5.11 * (mw_weight**2) - 3.52 * (mw_weight**3)
         return max(0.0, coeff)
 
     @staticmethod
     def reaction_intensity(
         fuel_loading: float,
-        SAV: float,
+        sav: float,
         beta_ratio: float,
         moisture: float,
-        MEF: float,
+        mef: float,
         fuel_energy: float,
         mineral_dampening: float,
     ) -> float:
@@ -105,9 +111,9 @@ class FireEquations:
         Returns:
             float: reaction intensity [kJ/m2/min]
         """
-        max_vel = FireEquations.maximum_reaction_velocity(SAV)
-        opt_vel = FireEquations.optimum_reaction_velocity(max_vel, SAV, beta_ratio)
-        moist_coeff = FireEquations.moisture_coefficient(moisture, MEF)
+        max_vel = FireEquations.maximum_reaction_velocity(sav)
+        opt_vel = FireEquations.optimum_reaction_velocity(max_vel, sav, beta_ratio)
+        moist_coeff = FireEquations.moisture_coefficient(moisture, mef)
         return opt_vel * fuel_loading * fuel_energy * moist_coeff * mineral_dampening
 
     @staticmethod
@@ -127,7 +133,6 @@ class FireEquations:
         Returns:
             float: heat of preignition [kJ/kg]
         """
-        Q_DRY = 581.0  # heat of pregnition of dry fuels
         return Q_DRY + 2594.0 * fuel_moisture
 
     @staticmethod
@@ -244,12 +249,12 @@ class FireEquations:
         return ros_front * math.exp(-0.012 * wind_speed)
 
     @staticmethod
-    def fire_duration(FDI: float, max_duration: float, duration_slope: float) -> float:
+    def fire_duration(fdi: float, max_duration: float, duration_slope: float) -> float:
         """Calculates fire duration [min]
         Equation 14 in Thonicke et al. 2010
 
         Args:
-            FDI (float): fire danger index [0-1]
+            fdi (float): fire danger index [0-1]
             max_duration (float): maximum fire duration [min]
             duration_slope (float): slope of fire duration curve [unitless]
 
@@ -257,7 +262,7 @@ class FireEquations:
             float: fire duration [min]
         """
         return (max_duration + 1.0) / (
-            1.0 + max_duration * math.exp(duration_slope * FDI)
+            1.0 + max_duration * math.exp(duration_slope * fdi)
         )
 
     @staticmethod
@@ -275,8 +280,6 @@ class FireEquations:
             float: length to bread ratio [unitless]
         """
 
-        LB_THRESHOLD = 0.55
-
         windspeed_km_hr = effective_windspeed / 1000.0 * 60.0
 
         if windspeed_km_hr < 1.0:
@@ -284,8 +287,8 @@ class FireEquations:
 
         if tree_fraction > LB_THRESHOLD:
             return 1.0 + 8.729 * ((1.0 - math.exp(-0.03 * windspeed_km_hr)) ** 2.155)
-        else:
-            return 1.1 * (windspeed_km_hr**0.464)
+
+        return 1.1 * (windspeed_km_hr**0.464)
 
     @staticmethod
     def fire_size(
@@ -308,8 +311,6 @@ class FireEquations:
             float: fire size [m2]
         """
 
-        PI = 3.14159265359
-
         if length_to_breadth < 0.0:
             return 0.0
 
@@ -319,7 +320,7 @@ class FireEquations:
         return (PI / (4.0 * length_to_breadth)) * ((dist_forward + dist_back) ** 2.0)
 
     @staticmethod
-    def area_burnt(fire_size: float, num_ignitions: float, FDI: float) -> float:
+    def area_burnt(fire_size: float, num_ignitions: float, fdi: float) -> float:
         """Calculates area burnt [m2/km2/day]
 
         Args:
@@ -330,7 +331,7 @@ class FireEquations:
         Returns:
             float: area burnt [m2/km2/day]
         """
-        return fire_size * num_ignitions * FDI
+        return fire_size * num_ignitions * fdi
 
     @staticmethod
     def fire_intensity(fuel_consumed: float, ros: float, fuel_energy: float) -> float:

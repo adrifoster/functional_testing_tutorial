@@ -24,6 +24,8 @@ class FireParams:
     fuel_energy: float
     max_duration: float
     duration_slope: float
+    drying_ratio: float
+    particle_density: float
     metadata: dict | None = None  # optional metadata
 
     @classmethod
@@ -50,6 +52,8 @@ class FireParams:
             fuel_energy=0.0,
             max_duration=0.0,
             duration_slope=0.0,
+            drying_ratio=0.0,
+            particle_density=0.0,
         )
 
     @classmethod
@@ -93,6 +97,8 @@ class FireParams:
             fuel_energy=extract_array("fuel_energy"),
             max_duration=extract_array("max_duration"),
             duration_slope=extract_array("duration_slope"),
+            drying_ratio=extract_array("drying_ratio"),
+            particle_density=extract_array("particle_density"),
             metadata=meta,
         )
 

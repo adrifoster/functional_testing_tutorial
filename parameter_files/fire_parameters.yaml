@@ -65,5 +65,15 @@ max_duration:
   
 duration_slope:
   value: -11.06
-  description: "slope of fire duration curve "
-  units: "unitless/kg"
+  description: "slope of fire duration curve"
+  units: "unitless"
+
+drying_ratio:
+  value: 66000.0
+  description: "drying ratio for fuel moisture"
+  units: "unitless"
+  
+particle_density:
+  value: 513.0
+  description: "oven dry particle density"
+  units: "kg/m2"

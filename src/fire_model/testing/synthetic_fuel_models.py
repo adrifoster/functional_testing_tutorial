@@ -12,6 +12,8 @@ FT_TO_M = 0.3048
 
 @dataclass
 class SyntheticFuelModel:
+    """Holds values for synthetic fuel models from Scott & Burgan 2005"""
+
     fuel_model_index: int
     carrier: str
     fuel_model_code: Optional[str] = None
@@ -259,6 +261,8 @@ HARD_CODED_FUEL_MODELS = [
 
 @dataclass
 class FuelModelsArray:
+    """Holds an array of synthetic fuel models"""
+
     fuel_models: List[SyntheticFuelModel] = field(default_factory=list)
 
     def __post_init__(self):
@@ -267,6 +271,17 @@ class FuelModelsArray:
             self.fuel_models.append(fm)
 
     def fuel_model_position(self, fuel_model_index: int) -> int:
+        """Get position in array of input fuel model index
+
+        Args:
+            fuel_model_index (int): fuel model index
+
+        Raises:
+            ValueError: can't find the index
+
+        Returns:
+            int: output array index
+        """
         for i, fm in enumerate(self.fuel_models):
             if fm.fuel_model_index == fuel_model_index:
                 return i

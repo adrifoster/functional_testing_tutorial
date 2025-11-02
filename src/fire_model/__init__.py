@@ -1,3 +1,4 @@
+"""Library init"""
 from .fire_equations import FireEquations
 from .fire_params import FireParams
 from .fire_weather_class import FireWeather
