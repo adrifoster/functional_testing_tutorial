@@ -1,0 +1,11 @@
+format: jb-book
+root: 00_Intro
+chapters:
+  - file: 01_PropagatingFlux
+    title: Testing Propagating Flux
+  - file: 02_FuelClass
+    title: Testing the Fuel Class
+  - file: 03_UsingDriverData
+    title: Using Driver Data
+  - file: 04_DiagnosingErrors
+    title: Diagnosing Errors

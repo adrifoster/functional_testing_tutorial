@@ -1,0 +1,12 @@
+title: Functional Testing Tutorial
+author: Adrianna Foster
+copyright: "2025"
+execute:
+  execute_notebooks: force
+repository:
+  url: https://github.com/adrifoster/functional_testing_tutorial.git
+  path_to_book: notebooks
+  branch: main
+launch_buttons:
+  colab_url: https://colab.research.google.com
+  binderhub_url: https://mybinder.org

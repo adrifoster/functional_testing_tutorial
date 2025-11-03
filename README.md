@@ -1,13 +1,22 @@
-# Functional Testing Tutorial - Setup Instructions
+[![Jupyter Book](https://jupyterbook.org/badge.svg)](https://adrifoster.github.io/functional_testing_tutorial/)
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?labpath=book%2Fintro.ipynb)
+
+# Functional Testing Tutorial
 
 Welcome! This tutorial uses Python to explore **functional testing** in scientific code. The 
 tutorial notebooks rely on a small library containing fire code examples (`fire_equations.py`,
 `fuel_class.py`, etc.). This code is translated from the SPITFIRE module within the 
 [FATES](https://github.com/NGEET/fates) repository.
 
+## Launching notebooks
+
+Click [here](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?labpath=book%2Fintro.ipynb) to launch a Jupyter Hub online via binder to interactively explore the notebooks.
+
+## Local Install
 Follow these steps to set up your environment and install the library.
 
-## 1. Clone the repository
+### 1. Clone the repository
 
 Open a terminal and run:
 
@@ -40,9 +49,9 @@ functional_testing_tutorial/
 └─ requirements.txt
 ```
 
-## 2. Create Python environment
+### 2. Create Python environment
 
-### Option A: Conda (recommended)
+#### Option A: Conda (recommended)
 
 In a terminal window type:
 
@@ -51,7 +60,7 @@ conda env create -f environment.yml
 conda activate functional-testing-tutorial
 ```
 
-### Option B: Pip (if not using Conda)
+#### Option B: Pip (if not using Conda)
 
 In a terminal window type:
 
@@ -64,7 +73,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## 3. Install tutorial library
+### 3. Install tutorial library
 
 Once your environment is active, install the Python package in **editable mode**:
 
@@ -75,7 +84,7 @@ pip install -e .
 This makes `functional_testing_tutorial` importable anywhere in the environment and 
 allows changes to `src/` to take effect immediately.
 
-### Test the installation
+#### Test the installation
 
 ```
 python -c "from functional_testing_tutorial.fire_equations import FireEquations; print('Library installed!')"

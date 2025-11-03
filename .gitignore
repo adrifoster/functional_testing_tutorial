@@ -7,3 +7,4 @@ __pycache__/
 .ipynb_checkpoints/
 notebooks/.ipynb_checkpoints/
 src/fire_model.egg_info/
+notebooks/_build
