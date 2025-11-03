@@ -2,6 +2,8 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?labpath=book%2Fintro.ipynb)
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adrifoster/functional_testing_tutorial/blob/main/notebooks/your_notebook.ipynb)
+
 # Functional Testing Tutorial
 
 Welcome! This tutorial uses Python to explore **functional testing** in scientific code. The 

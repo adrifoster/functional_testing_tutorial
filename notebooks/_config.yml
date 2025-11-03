@@ -4,7 +4,7 @@ copyright: "2025"
 execute:
   execute_notebooks: force
 repository:
-  url: https://github.com/adrifoster/functional_testing_tutorial.git
+  url: https://github.com/adrifoster/functional_testing_tutorial
   path_to_book: notebooks
   branch: main
 launch_buttons:
