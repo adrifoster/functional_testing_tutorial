@@ -63,7 +63,7 @@ class FireEquations:
         Returns:
             float: optimum reaction velocity [/min]
         """
-        a = 8.9033 * (sav**-0.7913)
+        a = 8.9033 * (sav**0.7913)
         a_beta = math.exp(a * (1.0 - beta_ratio))
         return max_vel * (beta_ratio**a) * a_beta
 

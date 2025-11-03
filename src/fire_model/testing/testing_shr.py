@@ -23,7 +23,7 @@ def read_weather_data(
         weather_data.temp_degC,
         weather_data.precip,
         weather_data.RH,
-        weather_data.wind,
+        weather_data.wind*60.0,  # m/s to m/min
     )
 
 
