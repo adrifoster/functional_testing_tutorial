@@ -1,0 +1,905 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Part 2 - Using a Class and Its Methods &#8212; Functional Testing Tutorial</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_FuelClass';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Part 3 - Using Driver Data in a Test" href="03_UsingDriverData.html" />
+    <link rel="prev" title="Functional Testing Practical" href="00_Intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="00_Intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Functional Testing Tutorial</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_Intro.html">
+                    Functional Testing Practical
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Testing the Fuel Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_UsingDriverData.html">Using Driver Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_DiagnosingErrors.html">Diagnosing Errors</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/adrifoster/functional_testing_tutorial.git/blob/main/notebooks/02_FuelClass.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_FuelClass.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Part 2 - Using a Class and Its Methods</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercising-methods-of-the-fuel-class">Exercising methods of the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concepts">Key Concepts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-1-set-up-fuel-object">Exercise 2.1: Set up <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> object</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#more-about-fuel">More about fuel</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fuel-classes">Fuel classes</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instatiating-the-fuel-object">Instatiating the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> object</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetic-fuels">Synthetic Fuels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2-comparing-surface-areas">Exercise 2.2: Comparing surface areas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-to-explore">Questions to explore:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2-comparing-bulk-density">Exercise 2.2: Comparing bulk density</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-3-testing-the-fraction-burnt-method">Exercise 2.3: Testing the fraction burnt method</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#property-check">Property check</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-check">Visual check</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-we-just-did">What We Just Did</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#looking-ahead">Looking Ahead</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="part-2-using-a-class-and-its-methods">
+<h1>Part 2 - Using a Class and Its Methods<a class="headerlink" href="#part-2-using-a-class-and-its-methods" title="Link to this heading">#</a></h1>
+<section id="exercising-methods-of-the-fuel-class">
+<h2>Exercising methods of the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class<a class="headerlink" href="#exercising-methods-of-the-fuel-class" title="Link to this heading">#</a></h2>
+<p>In this section, we’ll move from testing single equations to testing behaviors of class objects.</p>
+<p>We’ll use the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class, <code class="docutils literal notranslate"><span class="pre">FireParams</span></code>, and <code class="docutils literal notranslate"><span class="pre">FireEquations</span></code> from our source code. We will also introduce our “synthetic” fuels, which can be used to quickly mock up fuel objects that are based in reality, but have known conditions for more straightforward testing.</p>
+</section>
+<hr class="docutils" />
+<section id="goals">
+<h2>Goals<a class="headerlink" href="#goals" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Instantiate <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> objects based in reality, but with basic, standardized characteristics</p></li>
+<li><p>Test methods of the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class</p></li>
+<li><p>Visualize outputs.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="key-concepts">
+<h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Synthetic inputs</strong>: Create simple, controlled examples to explore expected behavior.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="exercise-2-1-set-up-fuel-object">
+<h2>Exercise 2.1: Set up <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> object<a class="headerlink" href="#exercise-2-1-set-up-fuel-object" title="Link to this heading">#</a></h2>
+<p>Check out the code in the <code class="docutils literal notranslate"><span class="pre">fuel_class.py</span></code> file. This file contains our <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Fuel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents fuel characteristics of a patch of land&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">FireParams</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a new Fuel instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (FireParams): parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loading</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">NUM_FUEL_CLASSES</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effective_moisture</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">NUM_FUEL_CLASSES</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frac_loading</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">NUM_FUEL_CLASSES</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frac_burnt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">NUM_FUEL_CLASSES</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">non_trunk_loading</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">average_moisture_notrunks</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bulk_density_notrunks</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sav_notrunks</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mef_notrunks</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>This class houses characteristics of fuel for a patch of land that we are interested in, including amount of fuel (<code class="docutils literal notranslate"><span class="pre">loading</span></code>, kgC m<span class="math notranslate nohighlight">\(^{-2}\)</span>), moisture (<code class="docutils literal notranslate"><span class="pre">effective_moisture</span></code>, m<span class="math notranslate nohighlight">\(^3\)</span> m<span class="math notranslate nohighlight">\(^{-3}\)</span>), fraction burnt (<code class="docutils literal notranslate"><span class="pre">frac_burnt</span></code>), bulk density (<code class="docutils literal notranslate"><span class="pre">bulk_density_notrunks</span></code>, kg m<span class="math notranslate nohighlight">\(^{-3}\)</span>), and surface area to volume ratio (<code class="docutils literal notranslate"><span class="pre">sav_no_trunks</span></code>, cm<span class="math notranslate nohighlight">\(^{-1}\)</span>).</p>
+<p>There are also methods for the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class, like <code class="docutils literal notranslate"><span class="pre">update_loading</span></code>, <code class="docutils literal notranslate"><span class="pre">compute_moisture</span></code>, and <code class="docutils literal notranslate"><span class="pre">average_bulk_density_no_trunks</span></code>.</p>
+<section id="more-about-fuel">
+<h3>More about fuel<a class="headerlink" href="#more-about-fuel" title="Link to this heading">#</a></h3>
+<p>In the Rothermel fuel model, surface fuel is broken up by size, as this is one of the primary characteristics that effects fire behaviour:</p>
+<section id="fuel-classes">
+<h4>Fuel classes<a class="headerlink" href="#fuel-classes" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p>“1-hour” fuels (i.e., dead leaves)</p></li>
+<li><p>“10-hour” fuels (i.e., twig litter)</p></li>
+<li><p>“100-hour” fuels (i.e., branch litter)</p></li>
+<li><p>“1000-hour” fuels (i.e., downed trunks)</p></li>
+<li><p>live herbaceous fuel (i.e., grasses)</p></li>
+</ol>
+<p>In the FATES code, we additionally break the branch litter up into small and large branches, thus representing six total fuel classes. Notice that some of the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> object attributes are (size 6) arrays, but some are scalars. The arrays hold values for each fuel class, whereas the scalars represent weighted-averages across the fuel classes.</p>
+<div class="alert alert-block alert-info"><b>Note: </b> Trunks are not used to calculate rate of spread, but we are interested in how much they may burn. As such, our weighted-average scalars do not include trunks in the averaging, but we still want to capture information about them in our arrays.</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="instatiating-the-fuel-object">
+<h3>Instatiating the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> object<a class="headerlink" href="#instatiating-the-fuel-object" title="Link to this heading">#</a></h3>
+<p>Alright, let’s go ahead and instantiate an instance of the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class. We need parameter values from our <code class="docutils literal notranslate"><span class="pre">FireParams</span></code> class. We can just go head and read in the default parameter file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fire_model.fire_params</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireParams</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fire_model.fuel_class</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fuel</span>
+
+<span class="c1"># read in parameter file</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">FireParams</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="s2">&quot;../parameter_files/fire_parameters.yaml&quot;</span><span class="p">)</span>
+
+<span class="c1"># instantiate a fuel object</span>
+<span class="n">fuel</span> <span class="o">=</span> <span class="n">Fuel</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+<span class="c1"># print out fuel attributes</span>
+<span class="n">fuel</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fuel instance state:
+  Loading (kgC/m2): [0. 0. 0. 0. 0. 0.]
+  Effective moisture (m3/m3): [0. 0. 0. 0. 0. 0.]
+  Fractional loading: [0. 0. 0. 0. 0. 0.]
+  Fraction burnt: [0. 0. 0. 0. 0. 0.]
+  Non-trunk loading (kgC/m2): 0.0000
+  Avg moisture (non-trunks, m3/m3): 0.0000
+  Bulk density (non-trunks, kg/m3): 0.0000
+  SAV (non-trunks, /cm): 0.0000
+  MEF (non-trunks, m3/m3): 0.0000
+</pre></div>
+</div>
+</div>
+</div>
+<p>By design, all the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> attributes are initialized to zero. In order to do much of anything interesting, we will need to populate the values.</p>
+<div class="alert alert-block alert-warning">When you are using an instantiated object, make sure the attributes you are using are initialized to some value you want. </div></section>
+<section id="synthetic-fuels">
+<h3>Synthetic Fuels<a class="headerlink" href="#synthetic-fuels" title="Link to this heading">#</a></h3>
+<p>Because we want to be able to exercise our <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class with realistic fuel characteristics, we have created a set of “synthetic” fuels based on a standardized set of fuels from the US Forest Service <a class="reference external" href="https://www.fs.usda.gov/rm/pubs_series/rmrs/gtr/rmrs_gtr153.pdf">(Scott &amp; Burgan 2005)</a>. For example, we could use a “moderate load conifer litter” fuel type or a “low load dry climate grass” type. In this way, we both set up our <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class with realistic (but standardized) characteristics, and we can also potentially use data and figures from other studies that use thes fuel types to compare to our output.</p>
+<p><img alt="low load climate grass" src="_images/fuel_models.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fire_model.testing.synthetic_fuel_models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FuelModelsArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fire_model.testing.testing_shr</span><span class="w"> </span><span class="kn">import</span> <span class="n">initialize_from_synthetic</span>
+
+<span class="c1"># initialize synthetic fuel data</span>
+<span class="n">all_synthetic_fuels</span> <span class="o">=</span> <span class="n">FuelModelsArray</span><span class="p">()</span>
+
+<span class="n">fuel_model</span> <span class="o">=</span> <span class="mi">102</span> <span class="c1"># low load dry climate grass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize fuel</span>
+<span class="n">fuel</span> <span class="o">=</span> <span class="n">Fuel</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+<span class="c1"># populate with values from our synthetic fuels database</span>
+<span class="n">fuel</span> <span class="o">=</span> <span class="n">initialize_from_synthetic</span><span class="p">(</span><span class="n">fuel</span><span class="p">,</span> <span class="n">all_synthetic_fuels</span><span class="p">,</span> <span class="n">fuel_model</span><span class="p">)</span>
+
+<span class="c1"># print out attributes</span>
+<span class="n">fuel</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fuel instance state:
+  Loading (kgC/m2): [0.     0.     0.     0.     0.0101 0.1009]
+  Effective moisture (m3/m3): [0. 0. 0. 0. 0. 0.]
+  Fractional loading: [0.     0.     0.     0.     0.0909 0.9091]
+  Fraction burnt: [0. 0. 0. 0. 0. 0.]
+  Non-trunk loading (kgC/m2): 0.1110
+  Avg moisture (non-trunks, m3/m3): 0.0000
+  Bulk density (non-trunks, kg/m3): 1.3636
+  SAV (non-trunks, /cm): 66.3636
+  MEF (non-trunks, m3/m3): 0.0000
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we have fuel loading and geometry properties for a basic “grass” fuel.</p>
+</section>
+</section>
+<section id="exercise-2-2-comparing-surface-areas">
+<h2>Exercise 2.2: Comparing surface areas<a class="headerlink" href="#exercise-2-2-comparing-surface-areas" title="Link to this heading">#</a></h2>
+<p>Note that the geometry properties for this class come from our input parameters, <strong>not</strong> the synthetic fuel data. This way, we can evaluate both our methods and our parameters.</p>
+<p>Let’s take a look at the surface area to volume ratio (SAV) for this fuel:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">fuel</span><span class="o">.</span><span class="n">sav_notrunks</span><span class="si">}</span><span class="s2"> kg/m3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>66.36363636363636 kg/m3
+</pre></div>
+</div>
+</div>
+</div>
+<p>By itself, we can’t say much about this value, but we could try to compare different synthetic fuel types to see how they compare.</p>
+<p>Let’s create an array of fuels so we can compare them:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fuel_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">102</span><span class="p">,</span> <span class="mi">164</span><span class="p">,</span> <span class="mi">183</span><span class="p">]</span> <span class="c1"># [grass, dwarf conifer, conifer]</span>
+<span class="n">fuels</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">fuel_id</span> <span class="ow">in</span> <span class="n">fuel_ids</span><span class="p">:</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">Fuel</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">initialize_from_synthetic</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">all_synthetic_fuels</span><span class="p">,</span> <span class="n">fuel_id</span><span class="p">)</span>
+    <span class="n">fuels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s first take a look at the composition of our fuels:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">fuel_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;grass&#39;</span><span class="p">,</span> <span class="s1">&#39;dwarf conifer&#39;</span><span class="p">,</span> <span class="s1">&#39;conifer&#39;</span><span class="p">]</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;darksalmon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;peru&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;saddlebrown&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;moccasin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;yellowgreen&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">fuel_types</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;twigs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;small branches&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;large branches&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;trunks&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dead leaves&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;live grass&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">fractional_loadings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">frac_loading</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fuels</span><span class="p">])</span>
+
+<span class="n">n_fuels</span><span class="p">,</span> <span class="n">n_classes</span> <span class="o">=</span> <span class="n">fractional_loadings</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_fuels</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">bottom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_fuels</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_classes</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">,</span>
+        <span class="n">fractional_loadings</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span>
+        <span class="n">bottom</span><span class="o">=</span><span class="n">bottom</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+        <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">fuel_types</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">bottom</span> <span class="o">+=</span> <span class="n">fractional_loadings</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">fuel_names</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Fractional Loading&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;center left&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Fuel Type&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5064b909d41fd34b05a2b5c56160bb78741265c88d4f715a7505589adca0bff2.png" src="_images/5064b909d41fd34b05a2b5c56160bb78741265c88d4f715a7505589adca0bff2.png" />
+</div>
+</div>
+<p>The grass fuel is mostly live grass, with some dead leaves. The dwarf conifer fuel is completely dead leaves, and the conifer fuel is mostly woody debris with some dead leaves.</p>
+<p>Based on what we know about fuel types, we would expect the dwarf conifer litter to have the highest SAV, the conifer litter to have the lowest SAV, and the grass litter to be in between.</p>
+<p>Let’s take a look at the SAV values for these fuels:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># grab SAV values</span>
+<span class="n">sav_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">fuel</span><span class="o">.</span><span class="n">sav_notrunks</span> <span class="k">for</span> <span class="n">fuel</span> <span class="ow">in</span> <span class="n">fuels</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">fuel_names</span><span class="p">,</span> <span class="n">sav_values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Surface Area to Volume Ratio (cm$^{-1}$)&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ab960e56f8d0e1e0242f2a7c4661f522f0086b9f85d970fc8a76c3c30c34fd28.png" src="_images/ab960e56f8d0e1e0242f2a7c4661f522f0086b9f85d970fc8a76c3c30c34fd28.png" />
+</div>
+</div>
+<section id="questions-to-explore">
+<h3>Questions to explore:<a class="headerlink" href="#questions-to-explore" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Does this look correct given what we know about the fuel?</p></li>
+<li><p>What could we do if there was a discrapancy?</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="exercise-2-2-comparing-bulk-density">
+<h2>Exercise 2.2: Comparing bulk density<a class="headerlink" href="#exercise-2-2-comparing-bulk-density" title="Link to this heading">#</a></h2>
+<p>Use what you have learned to similarly compare the bulk density of the fuels (`fuel.bulk_density_notrunks’).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#TODO: plot the bulk density comparison</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-2-3-testing-the-fraction-burnt-method">
+<h2>Exercise 2.3: Testing the fraction burnt method<a class="headerlink" href="#exercise-2-3-testing-the-fraction-burnt-method" title="Link to this heading">#</a></h2>
+<p>Let’s move on to testing a method of the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">calculate_fraction_burnt</span></code> method should satisfy the following properties:</p>
+<p>0 &lt;= <code class="docutils literal notranslate"><span class="pre">frac_burnt</span></code> &lt;= 1</p>
+<p>Increasing moisture reduces <code class="docutils literal notranslate"><span class="pre">frac_burnt</span></code> for each fuel class.</p>
+<p>Maximum fraction burnt for grasses is capped.</p>
+<p>This method only takes <code class="docutils literal notranslate"><span class="pre">effective_moisture</span></code> so we can just use one fuel object to test it. We will set the effective moisture to some dummy values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fuel</span> <span class="o">=</span> <span class="n">fuels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">fuel</span><span class="o">.</span><span class="n">effective_moisture</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>
+
+<span class="n">fuel</span><span class="o">.</span><span class="n">calculate_fraction_burnt</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fraction burnt:&quot;</span><span class="p">,</span> <span class="n">fuel</span><span class="o">.</span><span class="n">frac_burnt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fraction burnt: [0.945     0.907578  0.7252875 0.378     0.945     0.67662  ]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="property-check">
+<h3>Property check<a class="headerlink" href="#property-check" title="Link to this heading">#</a></h3>
+<p>Are all the values between 0.0 and 1.0?</p>
+</section>
+<section id="visual-check">
+<h3>Visual check<a class="headerlink" href="#visual-check" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">fuel_types</span><span class="p">,</span> <span class="n">fuel</span><span class="o">.</span><span class="n">frac_burnt</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Fuel class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Fraction burnt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Fraction burnt&#39;)
+</pre></div>
+</div>
+<img alt="_images/890a38f53f94e9e974f7aa540635a2557c3301429ebdebe8260af2899c3b4588.png" src="_images/890a38f53f94e9e974f7aa540635a2557c3301429ebdebe8260af2899c3b4588.png" />
+</div>
+</div>
+<p>Increase <code class="docutils literal notranslate"><span class="pre">effective_moisture</span></code> of each fuel by 0.05. Does <code class="docutils literal notranslate"><span class="pre">frac_burnt</span></code> decrease as expected? Plot the difference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## TODO: Investigate increasing effective_moisture</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s investigate the <code class="docutils literal notranslate"><span class="pre">frac_burnt</span></code> across all possible values of <code class="docutils literal notranslate"><span class="pre">effective_moisture</span></code>. Set the same moisture value for all the fuel types (i.e. the entire <code class="docutils literal notranslate"><span class="pre">fuel.effective_moisture</span></code> array).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">moisture</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># create a dict to store results for each fuel type</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="n">ftype</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">ftype</span> <span class="ow">in</span> <span class="n">fuel_types</span><span class="p">}</span>
+
+<span class="c1"># for moist in moisture:</span>
+    <span class="c1"># TODO: update fuel.effective_moisture and calculate fraction burnt</span>
+    
+    <span class="c1"># TODO: record results for each fuel type</span>
+    <span class="c1"># for i, ftype in enumerate(fuel_types):</span>
+
+<span class="c1"># TODO: plot output</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="what-we-just-did">
+<h2>What We Just Did<a class="headerlink" href="#what-we-just-did" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Used the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class, making sure to check the initial values for utility and realism</p></li>
+<li><p>Utilized methods of the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class to plot method outputs across a range of values</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="looking-ahead">
+<h2>Looking Ahead<a class="headerlink" href="#looking-ahead" title="Link to this heading">#</a></h2>
+<p>Next we will:</p>
+<ul class="simple">
+<li><p>Understand how to use input driver data to drive a small test</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="00_Intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Functional Testing Practical</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_UsingDriverData.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Part 3 - Using Driver Data in a Test</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercising-methods-of-the-fuel-class">Exercising methods of the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goals">Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concepts">Key Concepts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-1-set-up-fuel-object">Exercise 2.1: Set up <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> object</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#more-about-fuel">More about fuel</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fuel-classes">Fuel classes</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instatiating-the-fuel-object">Instatiating the <code class="docutils literal notranslate"><span class="pre">Fuel</span></code> object</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetic-fuels">Synthetic Fuels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2-comparing-surface-areas">Exercise 2.2: Comparing surface areas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-to-explore">Questions to explore:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2-comparing-bulk-density">Exercise 2.2: Comparing bulk density</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-3-testing-the-fraction-burnt-method">Exercise 2.3: Testing the fraction burnt method</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#property-check">Property check</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-check">Visual check</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-we-just-did">What We Just Did</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#looking-ahead">Looking Ahead</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Adrianna Foster
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
