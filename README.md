@@ -13,6 +13,8 @@ tutorial notebooks rely on a small library containing fire code examples (`fire_
 
 Click [here](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?labpath=book%2Fintro.ipynb) to launch a Jupyter Hub online via binder to interactively explore the notebooks.
 
+A static Jupyter Book is also available [here](https://adrifoster.github.io/functional_testing_tutorial/00_Intro.html).
+
 ## Local Install
 Follow these steps to set up your environment and install the library.
 
