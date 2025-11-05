@@ -2,7 +2,7 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?filepath=notebooks)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adrifoster/functional_testing_tutorial/blob/main/notebooks/00_Intro.html)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adrifoster/functional_testing_tutorial/blob/main/notebooks/00_Intro.ipynb)
 
 Welcome! This tutorial uses Python to explore **functional testing** in scientific code. The 
 tutorial notebooks rely on a small library containing fire code examples (`fire_equations.py`,
