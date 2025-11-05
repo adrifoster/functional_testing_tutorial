@@ -7,7 +7,7 @@ execute:
 
 repository:
   url: https://github.com/adrifoster/functional_testing_tutorial
-  path_to_book: book
+  path_to_book: notebooks
   branch: main
 
 launch_buttons:

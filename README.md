@@ -1,8 +1,9 @@
 # Functional Testing Tutorial
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?labpath=book%2Fintro.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?filepath=notebooks
+b)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adrifoster/functional_testing_tutorial/blob/main/notebooks/your_notebook.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adrifoster/functional_testing_tutorial/blob/main/notebooks/00_Intro.html)
 
 Welcome! This tutorial uses Python to explore **functional testing** in scientific code. The 
 tutorial notebooks rely on a small library containing fire code examples (`fire_equations.py`,
@@ -11,7 +12,7 @@ tutorial notebooks rely on a small library containing fire code examples (`fire_
 
 ## Launching notebooks
 
-Click [here](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?labpath=book%2Fintro.ipynb) to launch a Jupyter Hub online via binder to interactively explore the notebooks.
+Click [here](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?filepath=notebooks) to launch a Jupyter Hub online via binder to interactively explore the notebooks.
 
 A static Jupyter Book is also available [here](https://adrifoster.github.io/functional_testing_tutorial/00_Intro.html).
 
