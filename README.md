@@ -16,6 +16,7 @@ Click [here](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/m
 A static Jupyter Book is also available [here](https://adrifoster.github.io/functional_testing_tutorial/00_Intro.html).
 
 ## Local Install
+
 Follow these steps to set up your environment and install the library.
 
 ### 1. Clone the repository
