@@ -1,5 +1,5 @@
 format: jb-book
-root: 00_Intro
+root: 00_Intro.ipynb
 chapters:
   - file: 01_PropagatingFlux
     title: Testing Propagating Flux

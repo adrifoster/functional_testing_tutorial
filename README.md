@@ -45,6 +45,7 @@ functional_testing_tutorial/
 │     └─ testing_shr.py
 ├─ notebooks/
 ├─ data/
+├─ figs/
 ├─ parameter_files/
 ├─ setup.py
 ├─ environment.yml

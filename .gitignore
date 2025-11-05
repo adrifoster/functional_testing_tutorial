@@ -8,3 +8,4 @@ __pycache__/
 notebooks/.ipynb_checkpoints/
 src/fire_model.egg_info/
 notebooks/_build
+src/fire_model.egg-info/
