@@ -89,7 +89,7 @@ allows changes to `src/` to take effect immediately.
 #### Test the installation
 
 ```
-python -c "from functional_testing_tutorial.fire_equations import FireEquations; print('Library installed!')"
+python -c "from fire_model.fire_equations import FireEquations; print('Library installed!')"
 ```
 
 If you see `Library installed!`, you're good to go!
