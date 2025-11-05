@@ -1,7 +1,6 @@
 # Functional Testing Tutorial
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?filepath=notebooks
-b)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrifoster/functional_testing_tutorial/main?filepath=notebooks)
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adrifoster/functional_testing_tutorial/blob/main/notebooks/00_Intro.html)
 
